@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alessandra Comparetto</title>
+
+  <style>
+    /* 
+      ----------------------------------------------------------
+      CSS VARIABLES
+      ----------------------------------------------------------
+    */
+    :root {
+      --color-background: #FFFFFF;
+      --color-text: #000000;
+      --color-link: #0047FF;
+      --color-link-hover: #0033CC;
+      --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --about-width: 30%;
+      --card-corner-radius: 20px;
+      --ticker-background: var(--color-background);
+      --ticker-text-color: var(--color-text);
+      --ticker-speed: 30s;
+      
+      --border-style: 1px solid var(--color-text);
+      
+      --tab-width: 40px;
+      --tab-height: 130px;
+      --tab-border-radius: 8px 0 0 8px;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      RESET & BASE STYLES
+      ----------------------------------------------------------
+    */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--color-background);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      LINK STYLES
+      ----------------------------------------------------------
+    */
+    a {
+      color: var(--color-link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--color-link-hover);
+      text-decoration: underline;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      NEWS TICKER
+      ----------------------------------------------------------
+    */
+    .ticker-wrapper {
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--ticker-background);
+      color: var(--ticker-text-color);
+      padding: 12px 0;
+      border-bottom: var(--border-style);
+      flex-shrink: 0;
+    }
+
+    .ticker {
+      display: flex;
+      width: max-content;
+      animation: ticker-scroll var(--ticker-speed) linear infinite;
+    }
+
+    .ticker:hover {
+      animation-play-state: paused;
+    }
+
+    .ticker-text {
+      font-size: 12px;
+      text-transform: none;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      padding-right: 50px;
+    }
+
+    @keyframes ticker-scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* 
+      ----------------------------------------------------------
+      PAGE LAYOUT
+      ----------------------------------------------------------
+    */
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .page-container {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      ABOUT SECTION
+      ----------------------------------------------------------
+    */
+    .about-section {
+      width: var(--about-width);
+      min-width: 280px;
+      height: 100%;
+      padding: 30px;
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-y: auto;
+      flex-shrink: 0;
+      background-color: var(--color-background);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .about-section::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      CLOCK STYLES
+      ----------------------------------------------------------
+    */
+    .clock-container {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      text-align: right;
+    }
+
+    .clock-time {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .clock-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      BUSINESS CARD STYLES
+      ----------------------------------------------------------
+    */
+    .card-container {
+      width: 100%;
+      aspect-ratio: 1.6 / 1;
+      perspective: 1000px;
+      margin-top: 0px;
+      position: relative;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      /* Optional: subtle effect to show it's clickable */
+      box-shadow: none;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border: var(--border-style);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-front {
+      background-color: var(--color-background);
+      padding: 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      border-radius: 0 0 var(--card-corner-radius) 0;
+    }
+
+    .card-back {
+      background-color: var(--color-background);
+      transform: rotateY(180deg);
+      overflow: hidden;
+      border-radius: 0 0 0 var(--card-corner-radius);
+    }
+
+    .card-back img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Changed from 'cover' */
+    }
+
+    .gif-hover-text {
+    position: absolute;
+    /* bottom: 50%;
+    left: 70%;
+    transform: translateX(-50%); */
+    font-size: 14px;
+    color: var(--color-text);
+    background-color: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    }
+
+    .card-back:hover .gif-hover-text {
+    opacity: 1;
+    }
+
+    .card-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card-info {
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .card-info a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.card-info a:hover {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+.card-info a.block-link {
+  display: block;
+}
+
+    .card-hint {
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-size: 10px;
+    color: var(--color-link);
+    font-style: italic;
+    letter-spacing: 1px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+    /* 
+      ----------------------------------------------------------
+      BIO & CV LISTS
+      ----------------------------------------------------------
+    */
+    .bio {
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .cv-section {
+      margin-top: 15px;
+    }
+
+    .cv-section h3 {
+      font-size: 12px;
+      text-transform: none;
+      letter-spacing: 0px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .cv-list {
+      list-style: none;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .cv-list li {
+      margin-bottom: 5px;
+      display: flex;
+      gap: 15px;
+    }
+
+    .cv-date {
+      font-weight: 500;
+      flex-shrink: 0;
+      width: 45px;
+    }
+
+    .cv-description {
+      flex: 1;
+    }
+
+    .cv-description a {
+    color: var(--color-text);
+    text-decoration: none;
+    }
+
+    .cv-description a:hover {
+    color: var(--color-link);
+    text-decoration: underline;
+    }
+
+    /* TOOLTIP STYLES */
+.tooltip {
+  position: relative;
+  border-bottom: 1px dotted var(--color-text);
+  cursor: help;
+}
+
+.tooltip::after {
+  content: attr(data-info);
+  /* 
+    Gets the text from data-info attribute
+  */
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-link);
+  color: var(--color-background);
+  padding: 8px 12px;
+  font-size: 11px;
+  white-space: nowrap;
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+    /* 
+      ----------------------------------------------------------
+      FOLDER SYSTEM
+      ----------------------------------------------------------
+    */
+    .folder-system {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      position: relative;
+      background-color: var(--color-background);
+    }
+
+    .folder-tabs {
+      display: flex;
+      flex-direction: column;
+      padding-top: 30px;
+      gap: 0;
+    }
+
+    .folder-tab {
+      width: var(--tab-width);
+      height: var(--tab-height);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      writing-mode: vertical-rl;
+      cursor: pointer;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-text);
+      background-color: var(--color-background);
+      border: var(--border-style);
+      border-right: none;
+      border-radius: var(--tab-border-radius);
+      position: relative;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      user-select: none;
+      margin-bottom: -1px;
+    }
+
+    .folder-tab:hover {
+      color: var(--color-link);
+    }
+
+    .folder-tab.active {
+      background-color: var(--color-link);
+      color: var(--color-background);
+      font-weight: 500;
+      border-color: var(--color-link);
+      z-index: 2;
+    }
+
+    .folder-tab.active:hover {
+      color: var(--color-background);
+    }
+
+    .folder-tab.active::before {
+      content: '';
+      position: absolute;
+      right: -1px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: var(--color-background);
+    }
+
+    .folder-content-area {
+      flex: 1;
+      position: relative;
+      background-color: var(--color-background);
+      border-left: var(--border-style);
+      overflow: hidden;
+    }
+
+    .folder-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 30px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .folder-content.active {
+      display: block;
+    }
+
+    /* 
+  ----------------------------------------------------------
+  SKETCHBOOK SECTION - VERTICAL SCROLL
+  ----------------------------------------------------------
+*/
+.sketchbook-scroll {
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Each group/chapter */
+.sketch-chapter {
+  margin-bottom: 40px;
+}
+
+.sketch-chapter:last-child {
+  margin-bottom: 0;
+}
+
+/* Chapter header */
+.chapter-header {
+  margin-bottom: 30px;
+}
+
+.chapter-title {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.chapter-description {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* Images in the chapter */
+.chapter-images {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Individual image */
+.chapter-image {
+  width: 100%;
+  cursor: zoom-in;
+}
+
+.chapter-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Optional: Two column layout for smaller images */
+.chapter-images.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Optional: Three column layout */
+.chapter-images.three-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .sketchbook-scroll {
+    max-width: 100%;
+  }
+  
+  .sketch-chapter {
+    margin-bottom: 60px;
+  }
+  
+  .chapter-images.two-columns,
+  .chapter-images.three-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+   /* 
+  ----------------------------------------------------------
+  WORK SECTION - CLEAN LAYOUT
+  ----------------------------------------------------------
+*/
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.work-project {
+  width: 100%;
+}
+
+/* Image gallery container - no border */
+.work-gallery {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+/* All images in a row (for sliding) */
+.work-gallery-track {
+  display: flex;
+  transition: none;
+}
+
+.work-gallery-slide {
+  min-width: 100%;
+}
+
+.work-gallery-slide img {
+  width: 80%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation arrows */
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--color-background);
+  border: var(--border-style);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.gallery-nav:hover {
+  background-color: var(--color-link);
+  color: var(--color-background);
+  border-color: var(--color-link);
+}
+
+.gallery-nav.prev {
+  left: 10px;
+}
+
+.gallery-nav.next {
+  right: 10px;
+}
+
+/* Hide arrows if only one image */
+.work-gallery.single-image .gallery-nav {
+  display: none;
+}
+
+/* Dots indicator */
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.gallery-dot:hover {
+  opacity: 0.6;
+}
+
+.gallery-dot.active {
+  opacity: 1;
+  background-color: var(--color-link);
+}
+
+/* Hide dots if only one image */
+.work-gallery.single-image + .work-project-info .gallery-dots {
+  display: none;
+}
+
+/* Project info */
+.work-project-info {
+  padding: 20px 0;
+}
+
+.work-project-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.work-project-meta {
+  font-size: 13px;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin-bottom: 10px;
+}
+
+.work-project-description {
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .work-list {
+    gap: 40px;
+  }
+  
+  .gallery-nav {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+}
+
+    /* 
+      ----------------------------------------------------------
+      CUSTOM SCROLLBAR
+      ----------------------------------------------------------
+    */
+    .folder-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    .folder-content {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* 
+      ----------------------------------------------------------
+      RESPONSIVE DESIGN
+      ----------------------------------------------------------
+    */
+    @media (max-width: 900px) {
+      html, body {
+        overflow: auto;
+      }
+      
+      .page-wrapper {
+        height: auto;
+      }
+      
+      .page-container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .about-section {
+        width: 100%;
+        min-width: auto;
+        height: auto;
+        border-right: none;
+        border-bottom: var(--border-style);
+        padding-bottom: 40px;
+        overflow-y: visible;
+      }
+
+      .folder-system {
+        flex-direction: column;
+        height: auto;
+        min-height: 500px;
+      }
+
+      .folder-tabs {
+        flex-direction: row;
+        padding-top: 0;
+        padding-left: 20px;
+        gap: 0;
+        border-bottom: var(--border-style);
+        background-color: var(--color-background);
+      }
+
+      .folder-tab {
+        writing-mode: horizontal-tb;
+        width: auto;
+        height: auto;
+        padding: 12px 20px;
+        border-radius: 8px 8px 0 0;
+        border: var(--border-style);
+        border-bottom: none;
+        margin-bottom: 0;
+        margin-right: -1px;
+      }
+
+      .folder-tab.active::before {
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: -1px;
+        width: auto;
+        height: 2px;
+      }
+
+      .folder-content-area {
+        border-left: none;
+        min-height: 400px;
+      }
+
+      .folder-content {
+        position: relative;
+        overflow-y: visible;
+      }
+
+      .card-container {
+        max-width: 350px;
+      }
+      
+      .ticker-text {
+        font-size: 11px;
+        letter-spacing: 1px;
+      }
+
+      .cv-list li {
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .cv-date {
+        width: auto;
+      }
+    }
+
+    /* 
+  ----------------------------------------------------------
+  IMAGE ZOOM (FOLDER AREA)
+  ----------------------------------------------------------
+*/
+  .folder-content-area {
+    position: relative; /* needed for zoom positioning */
+  }
+
+  .image-zoom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    cursor: zoom-out;
+    padding: 30px;
+  }
+
+  .image-zoom.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .image-zoom img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .sketchbook-item {
+    cursor: zoom-in;
+  }
+
+  /* 
+  ----------------------------------------------------------
+  SKETCH CAPTIONS
+  ----------------------------------------------------------
+*/
+  .sketchbook-item {
+    position: relative;
+  }
+
+  .sketch-caption {
+    font-size: 11px;
+    color: var(--color-text);
+    position: absolute;
+    padding: 8px;
+    max-width: 200px;
+    line-height: 1.4;
+  }
+
+  /* Bottom (default) */
+  .sketch-caption.bottom {
+    bottom: -20px;
+    left: 0;
+    color: var(--color-link)
+  }
+
+  /* Top */
+  .sketch-caption.top {
+    top: -30px;
+    left: 0;
+  }
+
+  /* Left - vertical text */
+  .sketch-caption.left {
+    left: -35px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    max-width: none;
+    max-height: 80%;
+  }
+
+  /* Right - vertical text */
+  .sketch-caption.right {
+    right: -35px;
+   top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    max-width: none;
+    max-height: 80%;
+  }
+
+  /* Corner positions */
+  .sketch-caption.corner-bl {
+    bottom: 10px;
+    left: 10px;
+    background-color: var(--color-background);
+    padding: 5px 8px;
+  }
+
+  .sketch-caption.corner-br {
+   bottom: 10px;
+   right: 10px;
+   background-color: var(--color-background);
+   padding: 5px 8px;
+   text-align: right;
+  }
+
+  .sketch-caption.corner-tl {
+   top: 10px;
+   left: 10px;
+   background-color: var(--color-background);
+   padding: 5px 8px;
+  }
+
+  .sketch-caption.corner-tr {
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-background);
+   padding: 5px 8px;
+   text-align: right;
+  }
+
+  /* Diagonal - tilted text */
+  .sketch-caption.diagonal {
+   bottom: 15px;
+   left: 15px;
+    transform: rotate(-5deg);
+    font-style: italic;
+  }
+
+  /* Handwritten style option */
+  .sketch-caption.handwritten {
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  /* Hide caption by default, show on hover */
+  .sketch-caption {
+    opacity: 0;
+   transition: opacity 0.3s ease;
+  }
+
+  .sketchbook-item:hover .sketch-caption {
+    opacity: 1;
+  }
+
+  /* 
+  ----------------------------------------------------------
+  DESK FOLDER STYLES
+  ----------------------------------------------------------
+  */
+
+  .desk-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  background-color: #ffffff;
+  background-image: 
+    linear-gradient(rgba(0, 71, 255, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 71, 255, 0.5) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
+  overflow: hidden;
+  }
+
+  .desk-object {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  z-index: 1;
+  }
+
+.desk-object:active,
+.desk-object.dragging {
+  cursor: grabbing;
+  transform: scale(1.05);
+  z-index: 100;
+  }
+
+.desk-object img {
+  max-width: 300px; /* Adjust size as needed */
+  height: auto;
+  display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  }
+
+  .desk-object.dragging {
+    cursor: grabbing;
+    transform: scale(1.05);
+    z-index: 100;
+  }
+
+  /* 
+  ----------------------------------------------------------
+  COMICS SECTION
+  ----------------------------------------------------------
+*/
+.comics-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 30px;
+}
+
+/* Comic Reader Area */
+.comic-reader {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.comic-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.comic-description {
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+
+/* Panel Gallery */
+.comic-gallery {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.comic-gallery-track {
+  display: flex;
+  gap: 15px;
+  height: 100%;
+  transition: transform 0.3s ease-out;
+}
+
+.comic-panel {
+  flex-shrink: 0;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border: var(--border-style);
+  cursor: zoom-in;
+}
+
+.comic-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Navigation */
+.comic-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.comic-nav-btn {
+  background-color: var(--color-background);
+  border: var(--border-style);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.comic-nav-btn:hover {
+  background-color: var(--color-link);
+  color: var(--color-background);
+  border-color: var(--color-link);
+}
+
+.comic-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.comic-nav-btn:disabled:hover {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.comic-progress {
+  font-size: 12px;
+  opacity: 0.6;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Bottom Boxes */
+.comics-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.comic-box {
+  border: var(--border-style);
+  padding: 20px;
+  max-width: 350px;
+}
+
+.comic-box-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comic-box-text {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.comic-box-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--color-background);
+  border: var(--border-style);
+  color: var(--color-text);
+  font-size: 12px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.comic-box-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.comic-box-button.secondary {
+  background-color: transparent;
+  border-style: dashed;
+}
+
+.comic-box-button.secondary:hover {
+  background-color: var(--color-link);
+  border-style: solid;
+}
+
+.comic-box-button:hover {
+  background-color: var(--color-link);
+  color: var(--color-background);
+  border-color: var(--color-link);
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .comics-bottom {
+    grid-template-columns: 1fr;
+  }
+  
+  .comic-panel {
+    height: 250px;
+    aspect-ratio: 1 / 1;
+  }
+  
+  .comic-gallery {
+    min-height: 250px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- NEWS TICKER -->
+    <div class="ticker-wrapper">
+      <div class="ticker">
+        <span class="ticker-text">
+          • Website in progress! • Website in progress! • Website in progress! • Website in progress! • Website in progress! • Website in progress! •
+        </span>
+        <span class="ticker-text">
+          • Website in progress! • Website in progress! • Website in progress! • Website in progress! • Website in progress! • Website in progress! •
+        </span>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="page-container">
+
+      <!-- ABOUT SECTION -->
+      <aside class="about-section">
+
+      <!-- BUSINESS CARD -->
+      <div class="card-container">
+      <div class="card" id="card">
+    
+      <!-- FRONT -->
+      <div class="card-front">
+      <!-- CLOCK -->
+      <div class="clock-container">
+        <div class="clock-time" id="clock">00:00:00</div>
+      </div>
+      <div class="card-name">Alessandra Comparetto</div>
+        <div class="card-info">
+  <span>For illustration inquiries write me at:</span>
+  <a href="mailto:comparetto.alessandra@gmail.com" class="block-link">comparetto.alessandra@gmail.com</a>
+  <br> <br>
+  <span>For unprofessional updates </span>
+  <a href="https://instagram.com/pizza_maledetta" target="_blank" rel="noopener noreferrer">click here</a>
+</div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-back">
+        <img src="imgs/card/card_1.png" alt="Illustration" id="cardImage">
+       <!--  <span class="gif-hover-text">bau</span>
+        <span class="gif-hover-text">bau</span>
+        <span class="gif-hover-text">bau</span> -->
+      </div>
+
+    </div>
+    <span class="card-hint">↓ click the card to flip it ↓</span>  <!-- NOW IT'S HERE, OUTSIDE THE CARD -->
+  </div>
+
+        <!-- BIO -->
+        <div class="bio">
+          <p>
+            Alessandra Comparetto is an Italian illustrator. Her creative process revolves around mistakes and crocodiles. She studied graphic design at ISIA Urbino. Now she's based in Palermo and works in independent publishing.
+            </p>
+          </div>
+
+        <!-- GROUP EXHIBITIONS -->
+        <div class="cv-section">
+          <h3>Group Exhibitions</h3>
+          <ul class="cv-list">
+            <li>
+              <span class="cv-date">11/25</span>
+              <span class="cv-description"><a href="https://www.instagram.com/p/DRwoIgMiChF/?img_index=1
+" target="_blank" rel="noopener noreferrer">The Palermitaner, Atelier Forward, Palermo</a></span>
+            </li>
+            <li>
+              <span class="cv-date">05/25</span>
+              <span class="cv-description">Spontanea, Orto Botanico Pietro Castelli, Messina</span>
+            </li>
+            <li>
+              <span class="cv-date">11/24</span>
+              <span class="cv-description"> <a href="https://tequieromuchomucho.com/2024/11/18/residencia-tqm-vol-2/" target="_blank" rel="noopener noreferrer"> Residencia TQM Vol.2, Te Quiero Mucho, Barcelona </a> </span>
+            </li>
+            <li>
+              <span class="cv-date">06/24</span>
+              <span class="cv-description">Grand Opening, Galleria Rollò, Palermo</span>
+            </li>
+            <li>
+              <span class="cv-date">06/22</span>
+              <span class="cv-description">Manteia, Scie festival, Bologna</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- SELF PUBLISHING -->
+        <div class="cv-section">
+          <h3>Self Publishing</h3>
+          <ul class="cv-list">
+           <li>
+            <span class="cv-date">09/24</span>
+            <span class="cv-description">Coccodrilli • You can consult one copy at <span class="tooltip" data-info="Eisenbahnstraße 5, Leipzig">Jelly zine library.</span></span>
+                  </p>
+
+            </span>
+          </li>
+            <li>
+            <span class="cv-date">09/24</span>
+            <span class="cv-description">Il Gallo Socrate • Contact me for the last copies</span>
+          </li>
+          </ul>
+        </div>
+
+      </aside>
+
+      <!-- FOLDER SYSTEM -->
+      <div class="folder-system">
+
+        <!-- FOLDER TABS (Left side) -->
+        <div class="folder-tabs">
+          <div class="folder-tab active" data-folder="sketchbookFolder">
+            Sketchbook
+          </div>
+          <div class="folder-tab" data-folder="workFolder">
+            Work
+          </div>
+          <div class="folder-tab" data-folder="comicsFolder">
+            Comics
+          </div>
+          <div class="folder-tab" data-folder="deskFolder">
+            Desk
+          </div>
+          <!--
+          <div class="folder-tab" data-folder="animationFolder">
+            Animation
+          </div>
+          -->
+          <!--
+          <div class="folder-tab" data-folder="trashFolder">
+            Munnizza
+          </div>
+          -->
+        </div>
+
+                <!-- FOLDER CONTENT AREA -->
+        <div class="folder-content-area">
+
+          <!-- SKETCHBOOK FOLDER -->
+<div class="folder-content active" id="sketchbookFolder">
+  <div class="sketchbook-scroll">
+
+     <div class="chapter-images two-columns">
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_1.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_4.png" alt=""></div>
+</div>
+
+<div class="sketch-chapter">
+      <div class="chapter-header">
+      </div>
+      <div class="chapter-images">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_2.png" alt="Portrait 1"></div>
+      </div>
+    </div>
+
+    <div class="chapter-images two-columns">
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_3.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_5.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_7.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_6.png" alt=""></div>
+</div>
+    
+    <div class="sketch-chapter">
+      <div class="chapter-header">
+      </div>
+      <div class="chapter-images">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_9.png" alt="Portrait 1"></div>
+      </div>
+    </div>
+
+  <div class="chapter-images two-columns">
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_10.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_11.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_12.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_13.png" alt=""></div>
+</div>
+
+ <div class="sketch-chapter">
+      <div class="chapter-header">
+      </div>
+      <div class="chapter-images">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_anim_1.gif" alt="Portrait 1"></div>
+      </div>
+    </div>
+
+    <div class="chapter-images two-columns">
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_14.png" alt=""></div>
+  <div class="chapter-image"><img src="imgs/sketchbook/sketch_15.png" alt=""></div>
+</div>
+
+ <div class="sketch-chapter">
+      <div class="chapter-header">
+      </div>
+
+      <div class="chapter-images">
+        <div class="chapter-image"><img src="imgs/sketchbook/scimmie.gif" alt="Portrait 1"></div>
+      </div>
+    </div>
+
+    <div class="sketch-chapter">
+      <div class="chapter-header">
+      </div>
+      <div class="chapter-images">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_16.png" alt="Accident 1"></div>
+      </div>
+    </div>
+
+    <div class="chapter-images two-columns">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_17.png" alt="Accident 2"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_18.png" alt="Accident 3"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_19.png" alt="Accident 4"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_20.png" alt="Accident 5"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_21.png" alt="Accident 6"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_22.png" alt="Accident 7"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_23.png" alt="Accident 8"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_24.png" alt="Accident 9"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_25.png" alt="Plant 1"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_26.png" alt="Plant 2"></div>
+      </div>
+    
+    <div class="sketch-chapter">
+      <div class="chapter-header">
+      </div>
+      <div class="chapter-images">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_28.png" alt="Traffic"></div>
+      </div>
+    </div>
+    
+    <div class="chapter-images two-columns">
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_29.png" alt="Cat 1"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_30.png" alt="Cat 2"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_31.png" alt="Cat 3"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_32.png" alt="Cat 4"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_33.png" alt="Cat 5"></div>
+        <div class="chapter-image"><img src="imgs/sketchbook/sketch_34.png" alt="Cat 6"></div>
+      </div>
+
+    
+  </div>
+</div>
+
+          <!-- WORK FOLDER -->
+          <div class="folder-content" id="workFolder">
+            <div class="work-list">
+              
+              <!-- PROJECT: Il Gallo Socrate -->
+              <div class="work-project">
+                <div class="work-gallery" data-current="0">
+                  <div class="work-gallery-track">
+                    <div class="work-gallery-slide">
+                      <img src="imgs/work/gallo_1.jpg" alt="Il Gallo Socrate - Cover">
+                    </div>
+                    <div class="work-gallery-slide">
+                      <img src="imgs/work/gallo_2.jpg" alt="Il Gallo Socrate - Spread 1">
+                    </div>
+                    <div class="work-gallery-slide">
+                      <img src="imgs/work/gallo_4.jpg" alt="Il Gallo Socrate - Spread 2">
+                    </div>
+
+                  </div>
+                  <button class="gallery-nav next">→</button>
+                </div>
+                <div class="work-project-info">
+                  <div class="gallery-dots">
+                    <span class="gallery-dot active"></span>
+                    <span class="gallery-dot"></span>
+                    <span class="gallery-dot"></span>
+                  </div>
+                  <h3 class="work-project-title">Il Gallo Socrate</h3>
+                  <p class="work-project-description">
+                    Suicidi Editore • 2024 <br>
+                    A short surreal story written by Roberto Franzitta.
+                  </p>
+                </div>
+              </div>
+              
+              
+              <!-- PROJECT: Coccodrilli zine -->
+              <div class="work-project">
+                <div class="work-gallery" data-current="0">
+                  <div class="work-gallery-track">
+                    <div class="work-gallery-slide">
+                      <img src="imgs/work/work_2.gif" alt="Coccodrilli zine">
+                    </div>
+                  </div>
+                  <button class="gallery-nav prev">←</button>
+                  <button class="gallery-nav next">→</button>
+                </div>
+                <div class="work-project-info">
+                  <div class="gallery-dots">
+                    <span class="gallery-dot active"></span>
+                    <span class="gallery-dot"></span>
+                  </div>
+                  <h3 class="work-project-title">Coccodrilli zine</h3>
+                  <p class="work-project-description">
+                    Self published • 2024 <br>
+                    A 16 pages zine with a collection of crocodile drawings. <br>You can consult one copy at <span class="tooltip" data-info="Eisenbahnstraße 5, Leipzig">Jelly zine library.</span></span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- PROJECT: Palermitaner -->
+              <div class="work-project">
+                <div class="work-gallery single-image" data-current="0">
+                  <div class="work-gallery-track">
+                    <div class="work-gallery-slide">
+                      <img src="imgs/work/work_1.jpg" alt="Palermitaner cover">
+                    </div>
+                  </div>
+                  <button class="gallery-nav prev">←</button>
+                  <button class="gallery-nav next">→</button>
+                </div>
+                <div class="work-project-info">
+                  <div class="gallery-dots">
+                    <span class="gallery-dot active"></span>
+                  </div>
+                  <h3 class="work-project-title">The Palermitaner</h3>
+                  <p class="work-project-description">
+                    2022 <br>
+                    Cover for the imaginary magazine <i>The Palermitaner</i>. In 2025 50 covers are published as a book by Forward Edizioni. You can buy a copy
+                    <a href="https://publish.studioforward.it/prodotto/the-palermitaner/" 
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                      here
+                    </a>
+                    .
+                  </p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+          <!-- COMICS FOLDER -->
+          <div class="folder-content" id="comicsFolder">
+            <div class="comics-container">
+              
+              <!-- Comic Reader -->
+              <div class="comic-reader">
+                <h2 class="comic-title">Unfinishedcomic • 2025</h2>
+                <p class="comic-description">This short comic follows my thoughts on a summer afternoon. <br>It's late, I could do this, I should do that, I haven't done anything. <br>Is brushing your teeth in the kitchen an interesting enough story for a comic?</p>
+                
+                <div class="comic-gallery" id="comicGallery">
+                  <div class="comic-gallery-track" id="comicTrack">
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_01.jpg" alt="Panel 1">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_03.jpg" alt="Panel 2">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_04.jpg" alt="Panel 3">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_05.jpg" alt="Panel 4">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_06.jpg" alt="Panel 5">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_07.jpg" alt="Panel 6">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_08.jpg" alt="Panel 7">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_09.jpg" alt="Panel 8">
+                    </div>
+                     <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_10.jpg" alt="Panel 9">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_11.jpg" alt="Panel 10">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_12.jpg" alt="Panel 11">
+                    </div>
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_13.jpg" alt="Panel 12">
+                    </div>
+
+                    <div class="comic-panel">
+                      <img src="imgs/comics/uncomic_14.jpg" alt="Panel 13">
+                    </div>
+                    <div class="comic-panel">
+                     <img src="imgs/comics/uncomic_15.jpg" alt="Panel 14">
+                    </div>
+                    <div class="comic-panel">
+                    <img src="imgs/comics/uncomic_16.jpg" alt="Panel 15">
+                    </div>
+                    <div class="comic-panel">
+                     <img src="imgs/comics/uncomic_17.jpg" alt="Panel 16">
+                     </div>
+                    <div class="comic-panel">
+                     <img src="imgs/comics/uncomic_18.jpg" alt="Panel 17">
+                     </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_19.jpg" alt="Panel 18">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_20.jpg" alt="Panel 19">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_21.jpg" alt="Panel 20">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_22.jpg" alt="Panel 21">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_23.jpg" alt="Panel 22">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_24.jpg" alt="Panel 23">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_25.jpg" alt="Panel 24">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_26.jpg" alt="Panel 25">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_27.jpg" alt="Panel 26">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_28.jpg" alt="Panel 27">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_29.jpg" alt="Panel 28">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_30.jpg" alt="Panel 29">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_31.jpg" alt="Panel 30">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_32.jpg" alt="Panel 31">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_33.jpg" alt="Panel 32">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_34.jpg" alt="Panel 33">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_35.jpg" alt="Panel 34">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_36.jpg" alt="Panel 35">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_37.jpg" alt="Panel 36">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_38.jpg" alt="Panel 37">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_39.jpg" alt="Panel 38">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_40.jpg" alt="Panel 39">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_41.jpg" alt="Panel 40">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_42.jpg" alt="Panel 41">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_43.jpg" alt="Panel 42">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_44.jpg" alt="Panel 43">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_45.jpg" alt="Panel 44">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_46.jpg" alt="Panel 45">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_47.jpg" alt="Panel 46">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_48.jpg" alt="Panel 47">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_49.jpg" alt="Panel 48">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_50.jpg" alt="Panel 49">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_51.jpg" alt="Panel 50">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_52.jpg" alt="Panel 51">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_53.jpg" alt="Panel 52">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_54.jpg" alt="Panel 53">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_55.jpg" alt="Panel 54">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_56.jpg" alt="Panel 55">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_57.jpg" alt="Panel 56">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_58.jpg" alt="Panel 57">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_59.jpg" alt="Panel 58">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_60.jpg" alt="Panel 59">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_61.jpg" alt="Panel 60">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_62.jpg" alt="Panel 61">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_63.jpg" alt="Panel 62">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_64.jpg" alt="Panel 63">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_65.jpg" alt="Panel 64">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_66.jpg" alt="Panel 65">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_67.jpg" alt="Panel 66">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_68.jpg" alt="Panel 67">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_69.jpg" alt="Panel 68">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_70.jpg" alt="Panel 69">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_71.jpg" alt="Panel 70">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_72.jpg" alt="Panel 71">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_73.jpg" alt="Panel 72">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_74.jpg" alt="Panel 73">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_75.jpg" alt="Panel 74">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_76.jpg" alt="Panel 75">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_77.jpg" alt="Panel 76">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_78.jpg" alt="Panel 77">
+      </div>
+      <div class="comic-panel">
+        <img src="imgs/comics/uncomic_79.jpg" alt="Panel 78">
+      </div>
+                <div class="comic-panel">
+                 <img src="imgs/comics/uncomic_80.jpg" alt="Panel 79">
+                </div>
+
+                  </div>
+                </div>
+                
+                <div class="comic-nav">
+                  <button class="comic-nav-btn" id="comicPrev">←</button>
+                  <span class="comic-progress"><span id="comicCurrent">1</span> / <span id="comicTotal">8</span></span>
+                  <button class="comic-nav-btn" id="comicNext">→</button>
+                </div>
+              </div>
+              
+              <!-- Bottom Boxes -->
+              <div class="comics-bottom">
+                <div class="comic-box">
+                  <h3 class="comic-box-title">Request a comic</h3>
+                  <p class="comic-box-text">
+                    Send me some nonsense material for a comic.
+                  </p>
+                  <div class="comic-box-buttons">
+                    <a href="mailto:comparetto.alessandra@gmail.com?subject=Comic request&body=Dear Alessandra, here's my comic idea:%0D%0A%0D%0A" 
+                       class="comic-box-button">
+                      Send a request
+                    </a>
+                    <a href="https://www.paypal.com/paypalme/alessandracomparetto" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="comic-box-button secondary">
+                      Support production
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+          <!-- DESK FOLDER -->
+          <div class="folder-content" id="deskFolder">
+            <div class="desk-surface" id="deskSurface">
+              
+              <div class="desk-object" style="left: 100px; top: 80px;">
+                <img src="imgs/desk/forbici.GIF" alt="scissors">
+              </div>
+              
+              <div class="desk-object" style="left: 300px; top: 150px;">
+                <img src="imgs/desk/dog.GIF" alt="dog">
+              </div>
+              
+              
+            </div>
+          </div>
+
+          <!-- IMAGE ZOOM -->
+          <div class="image-zoom" id="imageZoom">
+            <img src="" alt="">
+          </div>
+
+        </div>
+        <!-- End of folder-content-area -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* 
+      ----------------------------------------------------------
+      CLOCK
+      ----------------------------------------------------------
+    */
+    function updateClock() {
+      const now = new Date();
+      const options = {
+        timeZone: 'Europe/Rome',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      };
+      const timeString = now.toLocaleTimeString('it-IT', options);
+      document.getElementById('clock').textContent = timeString;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* 
+  ----------------------------------------------------------
+  CARD IMAGE - DAY/NIGHT SWAP
+  ----------------------------------------------------------
+*/
+function updateCardImage() {
+  const cardImage = document.getElementById('cardImage');
+  
+  // Get current hour in Rome timezone
+  const now = new Date();
+  const romeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Rome' }));
+  const hour = romeTime.getHours();
+  
+  // Define day hours (7:00 AM to 9:59 PM)
+  const isDaytime = hour >= 9 && hour < 22;
+  
+  if (isDaytime) {
+    cardImage.src = 'imgs/card/card_1.png';
+    cardImage.alt = 'Alessandra awake';
+  } else {
+    cardImage.src = 'imgs/card/card_2.png';
+    cardImage.alt = 'Alessandra sleeping';
+  }
+}
+
+// Run on page load
+updateCardImage();
+
+// Update every hour (in case someone leaves the page open)
+setInterval(updateCardImage, 60 * 60 * 1000);
+
+
+    /* 
+      ----------------------------------------------------------
+      BUSINESS CARD FLIP
+      ----------------------------------------------------------
+      Click anywhere on the card to flip it
+    */
+    const card = document.getElementById('card');
+
+    function flipCard() {
+      card.classList.toggle('flipped');
+    }
+
+    card.addEventListener('click', flipCard);
+
+    // Keyboard accessibility
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', 'Flip business card');
+
+    card.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        flipCard();
+      }
+    });
+
+    /* 
+      ----------------------------------------------------------
+      FOLDER TAB SYSTEM
+      ----------------------------------------------------------
+    */
+    const folderTabs = document.querySelectorAll('.folder-tab');
+    const folderContents = document.querySelectorAll('.folder-content');
+
+    folderTabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        const targetFolderId = this.getAttribute('data-folder');
+        
+        folderTabs.forEach(function(t) {
+          t.classList.remove('active');
+        });
+        
+        this.classList.add('active');
+        
+        folderContents.forEach(function(content) {
+          content.classList.remove('active');
+        });
+        
+        document.getElementById(targetFolderId).classList.add('active');
+      });
+
+      tab.setAttribute('tabindex', '0');
+      tab.setAttribute('role', 'tab');
+
+      tab.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          this.click();
+        }
+      });
+    });
+
+    /*
+  ----------------------------------------------------------
+  RANDOM POSITION FOR "BAU" TEXT
+  ----------------------------------------------------------
+  */
+  const cardBack = document.querySelector('.card-back');
+  const bauTexts = document.querySelectorAll('.gif-hover-text');
+
+cardBack.addEventListener('mouseenter', function() {
+  bauTexts.forEach(function(text) {
+    const randomTop = Math.floor(Math.random() * 70) + 10;
+    const randomLeft = Math.floor(Math.random() * 70) + 10;
+    
+    text.style.top = randomTop + '%';
+    text.style.left = randomLeft + '%';
+  });
+});
+/* 
+  ----------------------------------------------------------
+  IMAGE ZOOM
+  ----------------------------------------------------------
+*/
+const imageZoom = document.getElementById('imageZoom');
+const zoomImg = imageZoom.querySelector('img');
+const sketchbookImages = document.querySelectorAll('.sketchbook-item img');
+
+// Click image to zoom
+sketchbookImages.forEach(function(img) {
+  img.addEventListener('click', function() {
+    zoomImg.src = this.src;
+    zoomImg.alt = this.alt;
+    imageZoom.classList.add('active');
+  });
+});
+
+// Click to close
+imageZoom.addEventListener('click', function() {
+  imageZoom.classList.remove('active');
+});
+
+// Close with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    imageZoom.classList.remove('active');
+  }
+});
+
+/* 
+  ----------------------------------------------------------
+  DESK DRAG AND DROP
+  ----------------------------------------------------------
+*/
+let isDragging = false;
+let currentObject = null;
+let offsetX = 0;
+let offsetY = 0;
+
+// Use event delegation - attach to document, check for .desk-object
+document.addEventListener('mousedown', function(e) {
+  const obj = e.target.closest('.desk-object');
+  if (!obj) return;
+  
+  e.preventDefault(); // Prevent text selection and image dragging
+  
+  isDragging = true;
+  currentObject = obj;
+  currentObject.classList.add('dragging');
+  
+  const rect = currentObject.getBoundingClientRect();
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+  
+  currentObject.style.zIndex = 100;
+});
+
+document.addEventListener('mousemove', function(e) {
+  if (!isDragging || !currentObject) return;
+  
+  e.preventDefault();
+  
+  const deskSurface = document.getElementById('deskSurface');
+  if (!deskSurface) return;
+  
+  const deskRect = deskSurface.getBoundingClientRect();
+  
+  let newX = e.clientX - deskRect.left - offsetX;
+  let newY = e.clientY - deskRect.top - offsetY;
+  
+  // Keep within bounds
+  const objWidth = currentObject.offsetWidth;
+  const objHeight = currentObject.offsetHeight;
+  
+  newX = Math.max(0, Math.min(newX, deskRect.width - objWidth));
+  newY = Math.max(0, Math.min(newY, deskRect.height - objHeight));
+  
+  currentObject.style.left = newX + 'px';
+  currentObject.style.top = newY + 'px';
+});
+
+document.addEventListener('mouseup', function() {
+  if (currentObject) {
+    currentObject.classList.remove('dragging');
+    currentObject.style.zIndex = '';
+  }
+  isDragging = false;
+  currentObject = null;
+});
+
+// Prevent the browser's default image drag behavior
+document.addEventListener('dragstart', function(e) {
+  if (e.target.closest('.desk-object')) {
+    e.preventDefault();
+  }
+});
+
+// Touch support for mobile
+document.addEventListener('touchstart', function(e) {
+  const obj = e.target.closest('.desk-object');
+  if (!obj) return;
+  
+  isDragging = true;
+  currentObject = obj;
+  currentObject.classList.add('dragging');
+  
+  const touch = e.touches[0];
+  const rect = currentObject.getBoundingClientRect();
+  offsetX = touch.clientX - rect.left;
+  offsetY = touch.clientY - rect.top;
+  
+  currentObject.style.zIndex = 100;
+}, { passive: false });
+
+document.addEventListener('touchmove', function(e) {
+  if (!isDragging || !currentObject) return;
+  
+  e.preventDefault(); // Prevent scrolling while dragging
+  
+  const deskSurface = document.getElementById('deskSurface');
+  if (!deskSurface) return;
+  
+  const touch = e.touches[0];
+  const deskRect = deskSurface.getBoundingClientRect();
+  
+  let newX = touch.clientX - deskRect.left - offsetX;
+  let newY = touch.clientY - deskRect.top - offsetY;
+  
+  const objWidth = currentObject.offsetWidth;
+  const objHeight = currentObject.offsetHeight;
+  
+  newX = Math.max(0, Math.min(newX, deskRect.width - objWidth));
+  newY = Math.max(0, Math.min(newY, deskRect.height - objHeight));
+  
+  currentObject.style.left = newX + 'px';
+  currentObject.style.top = newY + 'px';
+}, { passive: false });
+
+document.addEventListener('touchend', function() {
+  if (currentObject) {
+    currentObject.classList.remove('dragging');
+    currentObject.style.zIndex = '';
+  }
+  isDragging = false;
+  currentObject = null;
+});
+
+/* 
+  ----------------------------------------------------------
+  WORK GALLERY NAVIGATION
+  ----------------------------------------------------------
+*/
+function initWorkGalleries() {
+  const galleries = document.querySelectorAll('.work-gallery');
+  
+  galleries.forEach(function(gallery) {
+    const track = gallery.querySelector('.work-gallery-track');
+    const slides = gallery.querySelectorAll('.work-gallery-slide');
+    const prevBtn = gallery.querySelector('.gallery-nav.prev');
+    const nextBtn = gallery.querySelector('.gallery-nav.next');
+    const dotsContainer = gallery.nextElementSibling.querySelector('.gallery-dots');
+    const dots = dotsContainer ? dotsContainer.querySelectorAll('.gallery-dot') : [];
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    
+    // Add single-image class if only one slide
+    if (totalSlides <= 1) {
+      gallery.classList.add('single-image');
+    }
+    
+    function goToSlide(index) {
+      // Loop around
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      
+      currentIndex = index;
+      track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+      
+      // Update dots
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === currentIndex);
+      });
+    }
+    
+    // Arrow navigation
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        goToSlide(currentIndex - 1);
+      });
+    }
+    
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        goToSlide(currentIndex + 1);
+      });
+    }
+    
+    // Dot navigation
+    dots.forEach(function(dot, index) {
+      dot.addEventListener('click', function() {
+        goToSlide(index);
+      });
+    });
+    
+    // Keyboard navigation when gallery is focused/hovered
+    gallery.setAttribute('tabindex', '0');
+    gallery.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
+      if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
+    });
+  });
+}
+
+// Initialize galleries
+initWorkGalleries();
+
+/* 
+  ----------------------------------------------------------
+  WORK IMAGE ZOOM (Reuse existing zoom)
+  ----------------------------------------------------------
+*/
+const workImages = document.querySelectorAll('.work-gallery-slide img');
+
+workImages.forEach(function(img) {
+  img.addEventListener('click', function(e) {
+    // Don't zoom if clicking nav buttons
+    if (e.target.closest('.gallery-nav')) return;
+    
+    zoomImg.src = this.src;
+    zoomImg.alt = this.alt;
+    imageZoom.classList.add('active');
+  });
+});
+
+/* 
+  ----------------------------------------------------------
+  COMIC PANEL NAVIGATION
+  ----------------------------------------------------------
+*/
+function initComicReader() {
+  const gallery = document.getElementById('comicGallery');
+  const track = document.getElementById('comicTrack');
+  const panels = track.querySelectorAll('.comic-panel');
+  const prevBtn = document.getElementById('comicPrev');
+  const nextBtn = document.getElementById('comicNext');
+  const currentDisplay = document.getElementById('comicCurrent');
+  const totalDisplay = document.getElementById('comicTotal');
+  
+  let currentIndex = 0;
+  const totalPanels = panels.length;
+  
+  // Update total display
+  totalDisplay.textContent = totalPanels;
+  
+  function getVisiblePanels() {
+    // Calculate how many panels fit in view
+    if (!panels[0]) return 1;
+    const galleryWidth = gallery.offsetWidth;
+    const panelWidth = panels[0].offsetWidth + 15; // Include gap
+    return Math.floor(galleryWidth / panelWidth) || 1;
+  }
+  
+  function getMaxIndex() {
+    const visiblePanels = getVisiblePanels();
+    return Math.max(0, totalPanels - visiblePanels);
+  }
+  
+  function updateButtons() {
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex >= getMaxIndex();
+  }
+  
+  function goToPanel(index) {
+    const maxIndex = getMaxIndex();
+    
+    // Clamp index
+    if (index < 0) index = 0;
+    if (index > maxIndex) index = maxIndex;
+    
+    currentIndex = index;
+    
+    // Calculate offset
+    const panelWidth = panels[0].offsetWidth + 15; // Include gap
+    const offset = currentIndex * panelWidth;
+    
+    track.style.transform = 'translateX(-' + offset + 'px)';
+    
+    // Update display (show first visible panel number)
+    currentDisplay.textContent = currentIndex + 1;
+    
+    updateButtons();
+  }
+  
+  // Navigation
+  prevBtn.addEventListener('click', function() {
+    goToPanel(currentIndex - 1);
+  });
+  
+  nextBtn.addEventListener('click', function() {
+    goToPanel(currentIndex + 1);
+  });
+  
+  // Keyboard navigation
+  gallery.setAttribute('tabindex', '0');
+  gallery.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') goToPanel(currentIndex - 1);
+    if (e.key === 'ArrowRight') goToPanel(currentIndex + 1);
+  });
+  
+  // Recalculate on window resize
+  window.addEventListener('resize', function() {
+    goToPanel(currentIndex);
+  });
+  
+  // Initialize
+  updateButtons();
+  
+  // Zoom functionality for panels
+  panels.forEach(function(panel) {
+    const img = panel.querySelector('img');
+    img.addEventListener('click', function() {
+      zoomImg.src = this.src;
+      zoomImg.alt = this.alt;
+      imageZoom.classList.add('active');
+    });
+  });
+}
+
+// Initialize comic reader
+initComicReader();
+
+/* 
+  ----------------------------------------------------------
+  SKETCHBOOK IMAGE ZOOM
+  ----------------------------------------------------------
+*/
+function initSketchbookZoom() {
+  const images = document.querySelectorAll('.chapter-image img');
+  
+  images.forEach(function(img) {
+    img.addEventListener('click', function() {
+      zoomImg.src = this.src;
+      zoomImg.alt = this.alt;
+      imageZoom.classList.add('active');
+    });
+  });
+}
+
+initSketchbookZoom();
+
+
+  </script>
+
+</body>
+</html>
